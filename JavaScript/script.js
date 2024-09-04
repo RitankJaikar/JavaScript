@@ -91,3 +91,36 @@ console.log(Math, Math.PI, Math.abs(-10), Math.round(4.6), Math.ceil(4.2), Math.
 
 let max = 20;   let min = 10;   //range -> both inclusive
 console.log(Math.floor(Math.random()*(max-min+1) + min));   //formula random number in a range
+
+// DATE in JS (date is object in JS )
+// A Date object in JavaScript stores the number of milliseconds that have passed since January 1, 1970, at midnight UTC (called the epoch)
+let myDate = new Date();    //Gives current UTC Data and time, can be adjusted to other time zone like IST
+console.log(myDate);    //2024-09-04T11:54:53.790Z
+console.log(myDate.toString()); //Wed Sep 04 2024 11:54:53 GMT+0000 (Coordinated Universal Time)
+console.log(myDate.toISOString());  //2024-09-04T11:54:53.790Z
+console.log(myDate.toJSON());   //2024-09-04T11:54:53.790Z
+console.log(myDate.toDateString()); //Wed Sep 04 2024
+console.log(myDate.toTimeString()); //11:54:53 GMT+0000 (Coordinated Universal Time)
+console.log(myDate.toUTCString());  //Wed, 04 Sep 2024 11:54:53 GMT
+console.log(myDate.toLocaleString());   //9/4/2024, 11:54:53 AM
+console.log(myDate.toLocaleDateString());   //9/4/2024
+console.log(myDate.toLocaleTimeString());   //11:54:53 AM
+
+let newDate2 = new Date(2023,0,1);  //month starts with 0
+console.log(newDate2.toDateString());   //Sun Jan 01 2023
+let newDate3 = new Date(2000, 11, 8, 19, 45);   //my birthday
+console.log(newDate3.toLocaleString()); //12/8/2000, 7:45:00 PM
+let newDate4 = new Date("2024-1-16");    //Here montth start with 1
+console.log(newDate4.toUTCString());    //Thu, 18 Jan 2024 00:00:00 GMT
+let newDate5 = new Date("01-16-2024");  //alt version, works
+console.log(newDate5.toUTCString());    //Thu, 18 Jan 2024 00:00:00 GMT
+
+let newDate = Date.now();
+console.log(newDate);   //current date in ms-> 1725453695466
+console.log(newDate5.getTime());  //date in ms-> 1705363200000
+console.log(Math.floor(Date.now()/1000));   //in sec, can be used to compare date and times
+
+console.log(myDate.toLocaleString("default", {
+    // weekday: "short",
+    timeZone: "IST"     //ctrl+space for suggestion
+}));
