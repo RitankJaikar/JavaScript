@@ -325,3 +325,44 @@ val1 = 10 ?? 5;  //5
 // val1 = undefined ?? null;   //null
 // val1 = null ?? undefined;   //undefined
 console.log(val1);
+
+//Map : the Map object is a collection of key-value pairs where both the keys and values can be of any type. Maintains the insertion order of key-value pairs.
+//Key Flexibility: Unlike objects, Map keys are not limited to strings or symbols—they can be any data type.
+let map = new Map();
+// Keys of different types
+map.set('a', 1);           // String key
+map.set(1, 'one');          // Number key
+map.set(true, 'yes');       // Boolean key
+map.set({name: 'John'}, 25); // Object key  //can to be accessed directly
+map.set(() => 'key', 'func'); // Function key //can to be accessed directly (first store key in variable then map.get(var))
+// map.delete('key1');
+// map.clear();
+console.log(map.size, map.get(true), map.has('key1'));
+// Using forEach
+map.forEach((value, key) => {   //first value then key
+    console.log(key, value);
+});
+// Using for...of
+for(let [key, value] of map){
+    console.log(key, value);
+}
+
+//Iterate object: for in loop
+let obj2 = {
+    key1: 1,
+    key2: 2,
+    key3: 3
+};
+for (const key in obj2) {
+    console.log(key,":",obj2[key]);
+}
+//Iterate array: for in loop  (for of is better for array)
+for (const key in arr1) {   //key is index of array here
+    console.log(key, arr1[key]);
+}
+//map is not directly iterable, and for sure not with for in loop
+//forEach
+arr1.forEach((item, index, arr) => {    //arr -> full array
+    console.log(item, index, arr);
+});
+//forEach does not return anything unlike map, filter, reduce, every & some
