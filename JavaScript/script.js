@@ -366,3 +366,5 @@ arr1.forEach((item, index, arr) => {    //arr -> full array
     console.log(item, index, arr);
 });
 //forEach does not return anything unlike map, filter, reduce, every & some
+
+//PART 1 complete
