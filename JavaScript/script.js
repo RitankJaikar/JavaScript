@@ -59,7 +59,7 @@ const bigInt = 1232412n;
 
 
 let s1 = "String"; // type: string
-let s2 = new String("String"); //type: object
+let s2 = new String("String"); //type: object (Constructor Syntax)
 //String objects are objects, and they behave differently from primitive strings.
 //Name with Number object
 
@@ -124,3 +124,38 @@ console.log(myDate.toLocaleString("default", {
     // weekday: "short",
     timeZone: "IST"     //ctrl+space for suggestion
 }));
+
+
+//Arrays
+let arr1 = [1,2,3];
+let arr2 = new Array(1,2,3);    //Constructor Syntax: not prefered and both are same
+let arr3 = new Array(3);    //Creates an empty array with 3 slots
+// let arr4 = arr1.splice(0,2); //changes orig. array too
+let init = 0;   //optional
+let sum = arr1.reduce((acc, curr) => acc+curr, init);
+console.table([arr1,arr2, sum]);
+// console.log([1] === [1]);   //false, compares the address
+
+// .indexOf(1) , .includes(1)
+// arr1.toString() , arr1.join() [both are same, but] , arr1.join("-") [can choose seprator in join]
+// =>Change in orig. array:- .push(4) , .pop() , .unshift(0) [adds 0 to start, inc. TC] , .shift() [remove first ele]  , .reverse() , sort() , .splice(0,2) [returns the array as slice includes 2 also, but also cuts original array], .forEach() [if alter in ele]
+// =>Change in or create copy array:- arr1.concat(arr2) , .slice(0,2) , .map() , .filter() , [...arr1] , .flat()
+// .every() [Returns a boolean, true if all elements pass the test, false otherwise] , .some() [Returns a boolean, true if at least one element passes the test, false otherwise]
+// arr1.reduce((acc, curr) => acc+curr, init); [sum of ele]  [init is optional, reduces array to single value, do not change orig.]
+// forEach, map, filter, every, some, reduce are higner order functions (uses callbacks)
+// Array.isArray(var) , Array.from(var) , Array.of(var1,var2,var3)
+
+arr1.push(...arr2); //spread operator (creates copy)
+console.log(arr1, Math.min(...arr1), Math.max(...arr1));
+
+let arr4 = [1,2,[3,4,[5,6,[7,8]]]]; // too much depth
+let arr5 = arr4.flat(Infinity); // can give number of depth of Infinity to spread all deapth
+console.log(arr5);  // [1, 2, 3, 4, 5, 6, 7, 8]
+
+console.log(Array.isArray("Name")); //false
+console.log(Array.from("MyName"));  //[ 'N', 'a', 'm', 'e' ]
+console.log(Array.from(Number(123).toString())); //[ '1', '2', '3' ]
+console.log(Array.from({name: "Name"}.name));  //['N','a','m','e']
+
+let n1=n2=n3=10;
+console.log(Array.of(n1,n2,n3));    //[ 10, 10, 10 ]
