@@ -1,7 +1,7 @@
 # JavaScript Notes
 Learning JavaScript Again...
 
-From Hitesh Choudhary- Chai aur code. (Big Thank you for explaining everyhing in such simple way)
+From Hitesh Choudhary- Chai aur code. (Big Thank you for explaining everything in such simple way)
 
 Why learning JS?
 If you want to learn just coding, then don't. If you want to build great project/product then only proceed.
@@ -50,4 +50,4 @@ Creation of Execution Context: During parsing, JavaScript creates an execution c
 Execution of Code: After parsing, JavaScript starts executing the code line by line.
 Function Execution: When a function is invoked, a new execution context is created for that function, and the function's code is executed within that context.
 
-*I am a working professional with one year of experience in JavaScript. I still found great value from this video by revising JS fundamentals. This note is according to my personal perference.
+*I am a working professional with one year of experience in JavaScript. I still found great value from this video by revising JS fundamentals plus got to know some many new concepts. This note is according to my personal preference.
