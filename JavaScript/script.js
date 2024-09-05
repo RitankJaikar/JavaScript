@@ -132,8 +132,9 @@ let arr2 = new Array(1,2,3);    //Constructor Syntax: not prefered and both are 
 let arr3 = new Array(3);    //Creates an empty array with 3 slots
 // let arr4 = arr1.splice(0,2); //changes orig. array too
 let init = 0;   //optional
-let sum = arr1.reduce((acc, curr) => acc+curr, init);
-console.table([arr1,arr2, sum]);
+let sum = arr1.reduce((acc, curr) => acc+curr, init);   //6
+let num = arr1.find(item => item<2);    //1 (returns first matching value)
+console.table([arr1,arr2, sum, num]);
 // console.log([1] === [1]);   //false, compares the address
 
 // .indexOf(1) , .includes(1)
@@ -142,7 +143,7 @@ console.table([arr1,arr2, sum]);
 // =>Change in or create copy array:- arr1.concat(arr2) , .slice(0,2) , .map() , .filter() , [...arr1] , .flat()
 // .every() [Returns a boolean, true if all elements pass the test, false otherwise] , .some() [Returns a boolean, true if at least one element passes the test, false otherwise]
 // arr1.reduce((acc, curr) => acc+curr, init); [sum of ele]  [init is optional, reduces array to single value, do not change orig.]
-// forEach, map, filter, every, some, reduce are higner order functions (uses callbacks)
+// forEach, map, filter, every, some, reduce, find are higner order functions (uses callbacks)
 // Array.isArray(var) , Array.from(var) , Array.of(var1,var2,var3)
 
 arr1.push(...arr2); //spread operator (creates copy)
@@ -159,3 +160,140 @@ console.log(Array.from({name: "Name"}.name));  //['N','a','m','e']
 
 let n1=n2=n3=10;
 console.log(Array.of(n1,n2,n3));    //[ 10, 10, 10 ]
+
+//Objects
+//3 ways to create object
+//Constructor: let obj = new Object()     //empty object
+//Object.create(prototype, propertiesObject)    //both are singleton
+    //Provides fine-grained control over the prototype and property descriptors. Useful for creating objects with a specific prototype or when you need to set up complex inheritance.
+//Object Literals: let obj = {}     //most used and faster
+
+//access obj keys- obj.key (shortcut) or obj["key"] (actual)
+//delete key- delete obj.key (not much used and recomended)
+
+//all ways to declare and access key
+let dynamicKey = 'dynamic';
+let mySym = Symbol("key1");
+let obj = {
+    a: 1,
+    [dynamicKey]: 2,
+    "anotherKey1": 3,
+    ["anotherKey2"]: 4,
+    3 : 5,
+    "" : 6,
+    [mySym]: 7
+}
+console.log(obj);
+console.table([obj.a, obj[dynamicKey], obj["anotherKey1"], obj.anotherKey2, obj["3"], obj[""], obj[mySym]]);
+
+Object.freeze(obj); //Freezes the object, can not change or add keys
+
+// ? -> optional chaining operator: It allows you to access properties of an object safely, without throwing an error if the object or property is null or undefined. It's useful for preventing runtime errors when accessing nested properties in objects.
+//e.g. obj?.name will:
+//Return the value of obj.name if obj exists.
+//Return undefined if obj is null or undefined, without throwing an error.
+
+// merge objects, Object.assign({}, obj1, obj2, obj3);
+// let obj3 = {...obj1, ...obj2, ...obj3}  (better and easy)
+
+console.log(Object.keys(obj));  //returns all keys in an array
+console.log(Object.values(obj));   //returns array of values
+console.log(Object.entries(obj));  ///returns array of [key, value] pairs
+console.log(obj.hasOwnProperty('dynamic')); //true/false
+
+//Destructure Object
+let {a: key , dynamic} = obj;
+console.log(key, dynamic);
+
+//Destructure Array
+let arr6 = [1,2,3];
+let [v1, , v3, v4, v5=10] = arr6;
+console.log(v1,v3,v4,v5);   //1 3 undefined 10
+
+//Function
+function print() {
+    console.log("print");
+}
+//print   //reference
+print()   //execution, call
+
+//parameters vs arguments
+function add(a, b, c = 10) {  // a, b and c(with default) are parameters
+    console.log(a);
+    console.log(b);   //undefined if a or b is not passed as argument
+    // return         //returns undefined
+    //return a;       //returns undefined
+    return a+b;       //returns NaN if a or b is not passed as argument
+}
+let result = add(1,2);   // 5 and 10 are arguments
+console.log(result);
+
+
+function calculateCartPrice(val1, val2, ...num) {   //this time its rest operator
+    return num;
+}
+console.log(calculateCartPrice(10,20,30,40,50));   //[ 30, 40, 50 ]
+
+//Scope
+if(true) {
+    let a2 = 1;
+    const b2 = 2;
+    var c2 = 3;    //Problematic (old, never recommended)
+}
+// console.log(a2 , b2);   //Out of scope (not defined, error)
+console.log(c2)     //gives value but Problematic
+
+//Closure (allow inner functions to access and remember variables from their outer functions, even after the outer function has executed)
+function one() {
+    let p = "p";
+    function two() {
+        let q = "q";
+        console.log(p);
+    }
+    // console.log(q);  //error, out of scope
+    two();  // Works fine, as 'two()' is called within 'one()'
+}
+one();
+// Trying to call 'two()' outside 'one()' will result in an error:
+//two(); // Error: two is not defined
+
+let fun1 = function() { //variable as function, expression
+    console.log("fun1");
+}
+//we can call normal function anywhere in the scope, but expression can be only called after declaring the variabe/variable as function/expression
+
+console.log(this);  //{} -> global object, in browser its window object
+let user = {
+    name: "Ritank",
+    message: function() {
+        this.name = "Jaikar";   //changes the name
+        console.log(this.name); //this refers to user object
+    }
+}
+user.message();
+function showThis() {
+    console.log(this);  //represents the properties and methods available on the global object
+}
+// showThis();
+
+let arowFun = () => {
+    console.log("arrow function")
+    console.log(this);  //{} -> refers global object
+}
+arowFun();
+// let arowFun1 = (num1,num2) =>  num1+num2;    //return num1+num2
+//or, better use second one, first may give problems
+let arowFun2 = (num1,num2) =>  (num1+num2); //implicit return (other one is explicit return)
+
+// IIFE- Immediately Invoked Function Expression (new for me)
+(function iife1() {     //named IIFE
+    console.log("Immediately invoke function1");
+})();   //semi colon is importnt with IIFE
+((fun) => {     //unnamed IIFE
+    console.log(`Immediately invoke ${fun}`);
+})("function2");
+(function() {     //this syntax is also correct
+    console.log("Immediately invoke function3");
+})();
+//Avoid polluting the global scope: It creates a private scope, preventing variables inside the IIFE from affecting the global environment. It can not be called globally. Its one time function.
+//Execute code immediately: It runs the function as soon as it is defined, which is useful for initialization code.
