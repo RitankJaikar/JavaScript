@@ -297,3 +297,31 @@ let arowFun2 = (num1,num2) =>  (num1+num2); //implicit return (other one is expl
 })();
 //Avoid polluting the global scope: It creates a private scope, preventing variables inside the IIFE from affecting the global environment. It can not be called globally. Its one time function.
 //Execute code immediately: It runs the function as soon as it is defined, which is useful for initialization code.
+
+// JS Execution Context
+// - {} -> Global EC (this) or Globale Env., window in browser (always)
+// - Function EC
+// - Eval Exection Context
+
+//Two JS ececution phase:-
+// - Memory Creation Phase or Creation Phase ir Parsing Phase
+    //creates space for for all variables with undefined, and for all function with their definition (cycle 1 complete)
+// - Execution Phase
+    //Does all the operations including calculations, assigining values to variables and for every function call it will New Variable Enviorment for Function EC with Execution Thread with again repeating cycle of Creation Phase and Execution Phase for this env. and after executing it gets deleted and returns to Global EC.
+
+//Callstack- LIFO: Last In First Out (It a mechanism used by JavaScript to keep track of function calls and their execution contexts.)
+
+//Things to remember- Execution Context, Global EC/Globale Env. (always), Function EC. Eval EC, 2 JS Exec. Phase, Cycle 1- Memory Creation Phase/Memory Phase/Creation Phase/Parsing Phase, Cycle 2- Execution Phase, New Variable Enviorment for Function EC. with Execution Thread, Callstack, LIFO
+
+//Falsy Values: false, 0, -0, BigInt 0n, "", null, undefined, NaN
+//Everything else is Truthy- surprise mf: "0", 'false', " ", [], {}, function(){} :these are Truthy
+
+// Nullish Coalesscing Operator (??): null undefined
+let val1;
+val1 = 10 ?? 5;  //5
+// val1 = null ?? 10;   //10
+// val1 = undefined ?? 10;  //10
+// val1 = null ?? 10 ?? 15; //10
+// val1 = undefined ?? null;   //null
+// val1 = null ?? undefined;   //undefined
+console.log(val1);
