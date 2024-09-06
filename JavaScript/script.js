@@ -217,7 +217,7 @@ function print() {
 //print   //reference
 print()   //execution, call
 
-//parameters vs arguments
+//parameters vs arguments: argument is the actual value passed, parameter is just a place holder. (mdn refers parameters bec they are placeholders)
 function add(a, b, c = 10) {  // a, b and c(with default) are parameters
     console.log(a);
     console.log(b);   //undefined if a or b is not passed as argument
