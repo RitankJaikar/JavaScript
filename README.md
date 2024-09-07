@@ -53,7 +53,7 @@ Function Execution: When a function is invoked, a new execution context is creat
 JS is synchronous and single threaded (by default). Execute one line of code at a time. Each operation waits for the last one to complete before executing.
 Blocking Code- block the program to execute first
 Non Blocking Code- do not block execution (callbacks, promises (fetch has higher priority), async/await) -> goes through task Queue (FIFO) -> then after processing complete again added to Call Stack(LIFO) (immediately executes)
-Using Web API (DOM API) or Node enviroment JS can handle Non Blocking Code too.
+Using Web API (DOM API) or Node enviroment JS can handle Async or Non Blocking Code too.
 
 
 *I am a working professional with one year of experience in JavaScript. I still found great value from this video by revising JS fundamentals plus got to know some many new concepts. This note is according to my personal preference.
