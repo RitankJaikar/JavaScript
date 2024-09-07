@@ -368,3 +368,88 @@ arr1.forEach((item, index, arr) => {    //arr -> full array
 //forEach does not return anything unlike map, filter, reduce, every & some
 
 //PART 1 complete
+
+//Promise: The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+//It has three states: pending, rejected, fulfilled
+let newPromise = new Promise(function(resolve, reject) {
+    setTimeout(function(){
+        console.log("Async task 1");
+        resolve();  //impt.
+    }, 1000);
+});
+newPromise.then(() => {
+    console.log("Async 1 resolved");    //prints after resolve();
+});
+
+new Promise(function(resolve, reject) { //direct
+    //Do async task
+    //DB calls, cryptography, network
+    setTimeout(function(){
+        let error = false;
+        if (!error) {
+            console.log("Async task 2");
+            resolve({username: "rj", email: "rj@gmail.com"});
+        }
+        else {
+            reject("Error");
+        }
+    }, 1000);
+})
+.then((user) => {
+    console.log("Async 2 resolved");
+    console.log(user);
+    return user.username;
+})
+.then((username) => {
+    console.log(username);
+})
+.catch(err => {
+    console.log(err);
+}).finally(() =>{   //always execute
+    console.log("Promise is resolved or rejected. IDK.")
+});
+
+const newPromise3 = new Promise(function(resolve, reject) {
+    setTimeout(function(){
+        let error = true;
+        if (!error) {
+            console.log("Async task 3");
+            resolve({username: "rj", email: "rj@gmail.com"});
+        }
+        else {
+            reject("Error");
+        }
+    }, 1000);
+});
+
+async function asyncFun() {
+    try {
+        const res = await newPromise3; 
+        const name = await res.username;
+        console.log("Res: ", res);
+        console.log("Name: ", name);
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+asyncFun();
+
+fetch("https://api.github.com/users/ritankjaikar")
+.then(res => {
+    return res.json();  //two step process with fetch
+})
+.then(data => {
+    console.log(data);
+})
+.catch(err => {
+    console.log(err);
+});
+//fetch returns Promise.
+//fetch has highest priority, then any other async activity. Hence fetch is executed and returned first than other. Special Queue (Micro Task Queue or Priority Queue or Fetch Queue) is created for fetch.
+//fetch was just introduced in NodeJS in 2022, before it was so difficult.
+//fetch Promise does not reject HTTP errors (like 404, etc.)
+//fetch working: res = fetch("something")
+// 1. reserve space in memory -> Data:- onFullfilled[], onRejected[] (these can not be accessed directly/ private fields)
+// 2. Web Browser/Node -> sends network request :- returns with fullfiled data or rejected data
+// Finally Data is provided to alloted variable (res)
