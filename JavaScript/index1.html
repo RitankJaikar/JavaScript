@@ -54,7 +54,8 @@
         console.log(ele1_1.getAttribute("class"), ele1_1.getAttribute("id"));
         //ele1_1.setAttribute("class", "heading_one");    //overrides all (bad practice)
         ele1_1.classList.add("heading_one"); //better: adds a class
-        ele1_1.style.color = "red"; //style: very useful
+        ele1_1.style.color = "red"; //only brings or works on inline style, but can manipulate styles using
+        //window.getComputedStyle(ele) -> brings all the calculated styles of element including inline, style sheete, etc. Can not be manipulated, this is read-only
 
         let ele2 = document.getElementById("div1");
         console.log(ele2.innerHTML,"#", ele2.innerText,"#", ele2.textContent);
