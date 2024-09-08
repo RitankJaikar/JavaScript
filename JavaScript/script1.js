@@ -385,7 +385,7 @@ new Promise(function(resolve, reject) { //direct
     //Do async task
     //DB calls, cryptography, network
     setTimeout(function(){
-        let error = false;
+        let error = true;
         if (!error) {
             console.log("Async task 2");
             resolve({username: "rj", email: "rj@gmail.com"});
@@ -435,7 +435,7 @@ async function asyncFun() {
 }
 asyncFun();
 
-fetch("https://api.github.com/users/ritankjaikar")
+fetch("https://api.github.com/users/ritankjaikar err")
 .then(res => {
     return res.json();  //two step process with fetch
 })
@@ -453,3 +453,124 @@ fetch("https://api.github.com/users/ritankjaikar")
 // 1. reserve space in memory -> Data:- onFullfilled[], onRejected[] (these can not be accessed directly/ private fields)
 // 2. Web Browser/Node -> sends network request :- returns with fullfiled data or rejected data
 // Finally Data is provided to alloted variable (res)
+
+//OOP in JS- Object Oriented Programming (a programming paradigm- a style of programming)
+//Object- Collection of properties and methods
+// Topics- Object Literal(its object only- base unit), Constructor functions(), Prototypes, Classes, Instances(new, this), Getters, Setters
+// this: current context (works differently in normal and arrow function)
+// new keyword: use to create constructor function (new instance or new context or copy)
+
+function newuser(name, pass) {  //constructor function
+    this.newname = name;    //property
+    this.newpass = pass;
+    this.greeting = function() {
+        console.log(`Welcome ${this.newname}`);
+    }
+    return this;    //not mandatory
+}
+const userOne = newuser("rj1", 123);
+const userTwo = newuser("rj2", 456);    //will override all values in global
+console.log("userOne", userOne);
+//hence need to use new keyword
+const userThree = new newuser("rj3", 789); //constructor function is called
+const userFour = new newuser("rj4", 987);
+console.log("userThree", userThree);
+userFour.greeting();
+console.log(userThree.constructor); //it is reference to its constructor function "newuser"
+console.log(userThree instanceof newuser);  //true
+console.log(userFour instanceof Object);   //true
+//instanceof operator tests to see if the prototype property of a constructor appears anywhere in the prototype chain of an object
+
+//JS has Prototypal Behaviour (in-built functionality): Prototypes are the mechanism by which JavaScript objects inherit features(properties and method) from one another.
+//Every object in JavaScript has a built-in property, which is called its prototype. The prototype is itself an object, so the prototype will have its own prototype, making what's called a prototype chain. The chain ends when we reach a prototype that has null for its own prototype.
+//(new keyword, this keyword, classes, inheritance are all possible due to Prototypes)
+//Prototype -> Prototype(Array, String, Function,...) -> Prototype... -> Object(root) -> null   [Can not be backwords]
+//While a string is a primitive data type in JavaScript, it is automatically wrapped in a String object when we try to access properties or methods on it (e.g. length, trim, slice, etc.)
+//Functions in JavaScript are first-class objects. This means they are objects that can have properties and methods.
+function greet(name) {
+    this.name = name;
+    console.log("Hello!");
+}
+greet.message = "This is a function property";
+greet();   //Hello!
+console.log(greet.message); //This is a function property
+console.log(greet.prototype);   //{}
+greet.prototype.sayMyName = function() {
+    console.log(`Hello ${this.name}`);  //this ka matlab jis ne bhi bulaya
+}
+let greet1 = new greet("RJ");   //new keyword is impt. here
+greet1.sayMyName(); //do not need to write .prototype
+
+//BTS of new keword: - A new keyword initiates the creation of new JS object. - The newly created object gets linked to prototype properties of the constructor function. This means it has access to properties and methods defined on constructor's prototype. - The constructor function is called with the specified arguments and "this" is bound to the newly created object. - New object is returned
+
+let myName = "   Ritank   ";
+String.prototype.trueLength = function() {
+    return this.trim().length;
+}
+console.log(myName.trueLength());   //6
+console.log(myName);    //still same
+
+Object.prototype.ritank = function() {
+    console.log(`I am everywhere.`);
+}   //new method is added to Object, now Objects, Arrays, Strings... can access this method
+obj.ritank();
+myName.ritank();    //ritank() is even available in String, since it is wrapped in Sring Object it can access Object methods
+
+const TeacherUser1 = {
+    name: "name1",
+    email:  "name2@email.com"
+}
+const TeacherUser2 = {
+    name: "name2",
+    email:  "name2@email.com"
+}
+const Teacher = {
+    teach: true
+}
+const TeachingSupport = {
+    isAvailable: false
+}
+const TASupport = {
+    makeAssignment: "JS assignment",
+    fullTime: true,
+    __proto__: TeachingSupport  //Prototypal inheritance
+    //__proto__: TeachingSupport    //cannot directly assign multiple prototypes using __proto__ 
+}
+Teacher.__proto__ = TeacherUser1;    //another way (__proto__ is oudated approach)
+Teacher.__proto__ = TeacherUser2;   // Now Teacher inherits from TeacherUser2, but loses connection to TeacherUser1
+console.log(Teacher.email); //name2@emai.com
+console.log(TASupport.isAvailable); //false
+//modern syntax (works same as __proto__)
+Object.setPrototypeOf(TeachingSupport, Teacher);    //TeachingSupport inherits properties from Teacher
+console.log(TeachingSupport.teach);
+console.log(TeachingSupport.name);  //Due to prototype chain
+
+//JavaScript objects have a single prototype chain, meaning an object can only inherit from one other object directly (single inheritance model -> only one prototype at a time). This design simplifies the inheritance chain and avoids complexity that can arise from multiple inheritance, such as conflicts between properties and methods from different parent objects.
+
+//4 pillers in OOP:- Abstraction, Encapulation, Inheritance, Polymorphism
+
+let baseSalary = 30000;     //Procedural Programming
+let overtime = 10;
+let rate = 20;
+function getWage(baseSalary, overtime, rate) {
+    return baseSalary + overtime*rate;
+}
+getWage(baseSalary, overtime, rate);    //three parameters, will be complex & difficult to handle when code base increases
+
+let employee = {    //OOP
+    baseSalary: 30000,
+    overtime: 10,
+    rate: 20,
+    getWage: function() {
+        return this.baseSalary + this.overtime*this.rate;
+    }
+}
+console.log(employee.getWage()); //Better and scalable, the fewer the number of parameters, easier it is to maintin that function
+
+//Abstraction: Abstraction hides the complexity by providing a simplified interface for interacting with an object.
+
+//Encapsulation: Bundles data and methods into a single unit, and limits direct access to some of that data.
+
+//Inheritance: It allows one class to inherit properties and methods from another class.
+
+//Polymorphism: allows objects of different classes to be treated as instances of the same class through method overriding.

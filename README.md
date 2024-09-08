@@ -59,4 +59,8 @@ JS engine has only Call Stack and Memory Heap.
 Modern implementations of JavaScript, like Google's V8 engine, are primarily written in C++. V8 is Google's open source JavaScript engine.
 https://github.com/v8/v8
 
+Classes in JS: JavaScript does have classes, but they are more like syntactic sugar over its existing prototype-based inheritance model. In other words, while JavaScript provides the class keyword to define classes in a way that looks familiar to developers coming from object-oriented programming languages like Java or C++, under the hood, it’s still using prototypes.
+So, JavaScript classes are not "classes" in the traditional sense. Under the hood, they're just functions and objects.
+JavaScript is an object-oriented language (a programming paradigm), but it uses prototypes (Prototypes Based Language) instead of classes for inheritance and object creation. It’s a more flexible and dynamic approach to OOP compared to traditional class-based languages.
+
 *I am a working professional with one year of experience in JavaScript. I still found great value from this video by revising JS fundamentals plus got to know some many new concepts. This note is according to my personal preference.
