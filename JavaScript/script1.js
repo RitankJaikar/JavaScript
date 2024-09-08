@@ -633,3 +633,43 @@ function birdFlight(bird) {
 birdFlight(Eagle);    // "The eagle soars high in the sky!"
 birdFlight(Penguin);  // "Penguins can't fly, but they swim really well!"
 birdFlight(Sparrow);  // "This bird is flying!"
+
+//Classes:- syntactical sugar over the existing prototype-based inheritance or same working as constructor functions
+class Product { //Classes are a template for creating objects
+    //constructor method is a special method of a class for creating and initializing an object instance of that class
+    constructor(name, id) {
+        this.name = name;
+        this.id = id;
+        this.brand = function() {   //instance method: less memory-efficient- new copy of the method is created for each instance
+            console.log("All product are under same brand");
+        }
+    }
+    //prototype methods: memory-efficient as these are shared by all instances
+    static productCode() {  //restrict the access
+        return `${this.name}${this.id}`
+    }
+    static code = "CODE";   //Static methods/prop are not accessible to instances, they can only be accessed via the class itself
+    changeProductName() {
+        return this.name.toUpperCase();
+    }
+}
+let newProduct = new Product("dettol", 123);
+console.log(newProduct);
+//console.log(newProduct.productCode()); //undefined: can not be accessed
+console.log(Product.code);  //can be only accessed via class itself
+console.log(newProduct.changeProductName());
+newProduct.brand();
+
+class ProdutDetails extends Product{    //inheritance
+    constructor(name, id, detail) {
+        //super keyword: to call the constructor of its parent class to access the parent's properties and methods
+        super(name, id);    //can be called only once
+        this.detail = detail;
+    }
+    details() {
+        console.log("This is product details");
+    }
+}
+const ProdutDetails1 = new ProdutDetails("cotton", 456, "Product Detail");
+console.log(ProdutDetails1);
+ProdutDetails1.changeProductName(); //can be accessed due to inheritance
