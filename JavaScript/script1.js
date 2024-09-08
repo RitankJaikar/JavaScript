@@ -567,10 +567,69 @@ let employee = {    //OOP
 }
 console.log(employee.getWage()); //Better and scalable, the fewer the number of parameters, easier it is to maintin that function
 
-//Abstraction: Abstraction hides the complexity by providing a simplified interface for interacting with an object.
+//Abstraction: Abstraction hides the complexity by providing a simplified interface for interacting with an object. (Hiding unnecessary details and showing only essential information.)
+function Car(make, model) {
+    this.make = make;
+    this.model = model;
+    let engineNumber = "ABC123";  // Private detail
+    
+    this.getCarInfo = function() {
+        return `${this.make} ${this.model}`;
+    };
+}
+const myCar = new Car("Toyota", "Camry");
+console.log(myCar.getCarInfo()); // "Toyota Camry"
+// Cannot access engineNumber directly
 
-//Encapsulation: Bundles data and methods into a single unit, and limits direct access to some of that data.
+//Encapsulation: Bundling data (properties) and methods (functions) that operate on that data within one unit (object) and limits direct access to some of that data.
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    let company = "Google"; //private detail
+    
+    this.greet = function() {
+        console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+    };
+}
+const person = new Person("Alice", 25);
+person.greet(); // "Hello, my name is Alice and I am 25 years old."
 
 //Inheritance: It allows one class to inherit properties and methods from another class.
+const Animal = {
+    isAlive: true,
+    eat() {
+        console.log("Eating...");
+    }
+};
+const Dog = Object.create(Animal);
+Dog.bark = function() {
+    console.log("Woof!");
+};
+console.log(Dog.isAlive);  // true, inherited from Animal
+Dog.eat();                 // "Eating...", inherited from Animal
+Dog.bark();                // "Woof!", specific to Dog
 
-//Polymorphism: allows objects of different classes to be treated as instances of the same class through method overriding.
+//Polymorphism: Allows objects of different classes to be treated as instances of the same class through Method Overriding. It also enables a method to behave differently based on the object it is called on.
+// Base Bird object
+const Bird = {
+    fly() {
+        console.log("This bird is flying!");
+    }
+};
+// Specific Bird types
+const Eagle = Object.create(Bird);
+Eagle.fly = function() {    //Method Overriding
+    console.log("The eagle soars high in the sky!");
+};
+const Penguin = Object.create(Bird);
+Penguin.fly = function() {
+    console.log("Penguins can't fly, but they swim really well!");
+};
+const Sparrow = Object.create(Bird);
+// Polymorphism in action
+function birdFlight(bird) {
+    bird.fly();
+}
+birdFlight(Eagle);    // "The eagle soars high in the sky!"
+birdFlight(Penguin);  // "Penguins can't fly, but they swim really well!"
+birdFlight(Sparrow);  // "This bird is flying!"
