@@ -772,3 +772,41 @@ const anotherPerson = {
 const getFullName = person.fullName.bind(anotherPerson);    //Returns a new function that can be called later
 console.log(getFullName()); // Output: "ritank jaikar"
 //.bind() is useful when you need to pass a function as a callback and want to ensure it runs with a specific context.
+
+//Object in depth. There are many hidden methods of Objects.
+//Q. Can you change value of Math.PI
+console.log(Math.PI);
+Math.PI = 10;   //can not, fails
+console.log(Math.PI);
+const descriptor = Object.getOwnPropertyDescriptor(Math, "PI");
+// Trying to modify the descriptor (fails due to configurable: false)
+/*Output: {
+    value: 3.141592653589793,
+    writable: false,
+    enumerable: false,
+    configurable: false
+}*/
+descriptor.writable = true;
+descriptor.enumerable = true;
+descriptor.configurable = true;
+descriptor.value = 10;
+console.log(descriptor.value);  //changes locally in the descriptor object, but not in Math.PI
+console.log(Math.PI);   //still same
+//A. Math.PI can not be changed
+
+//check descriptor of custom object
+let newObj = {
+    key1: 1,
+    key2: "value"
+}
+console.log(Object.getOwnPropertyDescriptor(newObj, "key1"));
+//customomize descriptor or custom property
+Object.defineProperty(newObj, "key1", {
+    writable: false,    //can not be changed
+    enumerable: false   //now can not be accessed via loop
+});
+console.log(Object.getOwnPropertyDescriptor(newObj, "key1"));   //changed
+newObj.key1 =10;
+console.log(newObj.key1);   //1
+
+//Getters and Setters: if one is defined then both need to be defined
