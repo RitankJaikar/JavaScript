@@ -925,3 +925,5 @@ subUser1.setPassword("newPassword");
 console.log(subUser1.getPassword()); // Output: "newPassword"
 subUser1.setPassword("short"); // Output: "Password is too short!"
 console.log(subUser1.getPassword()); // Output: "newPassword"
+
+//PART 2: Complete
