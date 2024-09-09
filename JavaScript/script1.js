@@ -514,7 +514,7 @@ Object.prototype.ritank = function() {
     console.log(`I am everywhere.`);
 }   //new method is added to Object, now Objects, Arrays, Strings... can access this method
 obj.ritank();
-myName.ritank();    //ritank() is even available in String, since it is wrapped in Sring Object it can access Object methods
+myName.ritank();    //ritank() is even available in String, since it is wrapped in Sring Object it can access Object methods due to Prototypal Inheritance
 
 const TeacherUser1 = {
     name: "name1",
@@ -534,7 +534,7 @@ const TASupport = {
     makeAssignment: "JS assignment",
     fullTime: true,
     __proto__: TeachingSupport  //Prototypal inheritance
-    //__proto__: TeachingSupport    //cannot directly assign multiple prototypes using __proto__ 
+    //__proto__: Teacher    //cannot assign multiple prototypes
 }
 Teacher.__proto__ = TeacherUser1;    //another way (__proto__ is oudated approach)
 Teacher.__proto__ = TeacherUser2;   // Now Teacher inherits from TeacherUser2, but loses connection to TeacherUser1
@@ -546,6 +546,23 @@ console.log(TeachingSupport.teach);
 console.log(TeachingSupport.name);  //Due to prototype chain
 
 //JavaScript objects have a single prototype chain, meaning an object can only inherit from one other object directly (single inheritance model -> only one prototype at a time). This design simplifies the inheritance chain and avoids complexity that can arise from multiple inheritance, such as conflicts between properties and methods from different parent objects.
+
+//.prototype is a property of constructor functions.
+//.__proto__ is a property of all objects.
+
+//call(): method of function instances allows to invoke functions in a specific context. "this" value and arguments provided individually
+function SetUsername(username) {
+    this.username = username;
+    console.log("called");
+}
+function createUser(username, email, pass) {
+    //SetUsername(username);    //its getting called but problem is execution context and call stack. It runs adds to call stack, create temporary memory, after execution its removed from call stack and temporary memory of variables are deleted
+    SetUsername.call(this, username);   //"this" is impt. here, to give current execution context
+    this.email = email;
+    this.password = pass;
+}
+const newUser1 = new createUser("rj", "rj@email.com", 123)
+console.log(newUser1.username);
 
 //4 pillers in OOP:- Abstraction, Encapulation, Inheritance, Polymorphism
 
@@ -640,25 +657,31 @@ class Product { //Classes are a template for creating objects
     constructor(name, id) {
         this.name = name;
         this.id = id;
+        let quantity = 1;   //this is also private
         this.brand = function() {   //instance method: less memory-efficient- new copy of the method is created for each instance
             console.log("All product are under same brand");
         }
     }
     //prototype methods: memory-efficient as these are shared by all instances
-    static productCode() {  //restrict the access
+    productCode() {
         return `${this.name}${this.id}`
     }
-    static code = "CODE";   //Static methods/prop are not accessible to instances, they can only be accessed via the class itself
     changeProductName() {
         return this.name.toUpperCase();
     }
+    static privateInfo() {  //restricts the access
+        console.log("This is private Info.");
+    }
+    static code = "CODE";   //Static methods/prop are not accessible to instances, they can only be accessed via the class itself
 }
 let newProduct = new Product("dettol", 123);
 console.log(newProduct);
-//console.log(newProduct.productCode()); //undefined: can not be accessed
+//newProduct.privateInfo(); //undefined: can not be accessed
 console.log(Product.code);  //can be only accessed via class itself
 console.log(newProduct.changeProductName());
 newProduct.brand();
+console.log(newProduct.__proto__ === Product.prototype); // true
+// This shows that `newProduct.__proto__` points to `Product.prototype`
 
 class ProdutDetails extends Product{    //inheritance
     constructor(name, id, detail) {
@@ -672,4 +695,51 @@ class ProdutDetails extends Product{    //inheritance
 }
 const ProdutDetails1 = new ProdutDetails("cotton", 456, "Product Detail");
 console.log(ProdutDetails1);
-ProdutDetails1.changeProductName(); //can be accessed due to inheritance
+console.log(ProdutDetails1.changeProductName()); //can be accessed due to inheritance
+console.log(ProdutDetails1.__proto__ === ProdutDetails.prototype); // true
+console.log(ProdutDetails1.__proto__.__proto__ === Product.prototype); // true
+// The prototype chain: `ProdutDetails1.__proto__` -> `ProdutDetails.prototype` -> `Product.prototype`
+
+//Behind the scene (using constructor function)
+function Product2(name, id) {
+    this.name = name;
+    this.id = id;
+    let quantity = 1;   //Private property
+    this.brand = function() {
+        console.log("All product are under same brand");
+    }
+}
+Product2.code = "CODE"; // Static property
+Product2.printCode = function() { // Static method (extra)
+    console.log(this.code);
+}
+Product2.privateInfo = function() { //these can not be accessed by instances
+    console.log("This is private Info.");
+}
+Product2.prototype.productCode = function() {
+    return `${this.name}${this.id}`
+}
+Product2.prototype.changeProductName = function() {
+    return this.name.toUpperCase();
+}
+let newProduct2 = new Product2("dettol", 123);
+console.log(newProduct2);
+//newProduct2.privateInfo();
+console.log(newProduct2.changeProductName());
+newProduct2.brand();
+console.log(Product2.code);
+Product2.printCode();   //Static Method
+
+function ProductDetails2(name, id, detail) {    //inheritance
+    Product2.call(this, name, id);
+    this.detail = detail;
+}
+ProductDetails2.prototype.details = function() {
+    console.log("This is product details");
+}
+// Inheriting methods**
+ProductDetails2.prototype = Object.create(Product2.prototype);
+ProductDetails2.prototype.constructor = ProductDetails2;
+const ProdutDetails2_1 = new ProductDetails2("cotton", 456, "Product Detail");
+console.log(ProdutDetails2_1);
+console.log(ProdutDetails2_1.changeProductName());
