@@ -769,7 +769,7 @@ const anotherPerson = {
     firstName: "ritank",
     lastName: "jaikar"
 };
-const getFullName = person.fullName.bind(anotherPerson);    //Returns a new function that can be called later
+const getFullName = Person3.fullName.bind(anotherPerson);    //Returns a new function that can be called later
 console.log(getFullName()); // Output: "ritank jaikar"
 //.bind() is useful when you need to pass a function as a callback and want to ensure it runs with a specific context.
 
@@ -809,4 +809,119 @@ console.log(Object.getOwnPropertyDescriptor(newObj, "key1"));   //changed
 newObj.key1 =10;
 console.log(newObj.key1);   //1
 
-//Getters and Setters: if one is defined then both need to be defined
+//Getters and Setters: Special methods use to define how properties of an object are accessed and modified.
+//if one is defined then both need to be defined. or You can define a getter without a setter to create a read-only property. Conversely, you can define a setter without a getter to create a write-only property.
+//_ :is a convention indicating that this property is intended to be private. Also to differentiate between the internal property and the getter/setter methods
+//e.g. length is defined in Array bts using these
+class User {
+    constructor(email, password){
+        this.email = email;
+        this.password = password;
+    }
+    get password() {    //to get/access value, method on password(impt. to have same name as property)
+        //return this.password.toString();    //err (now issue in get)
+        console.log('Getter called');
+        return this._password.toString();   //return getters
+    }   //_password is now private property
+    set password(value) {   //to set/modify/validate value
+        //this.password = value;  //err, Maximum call stack size exceeded, its getting called again and again. here conflict is constructor is also setting password and set is also setting password.(issue in set)
+        console.log('Setter called');
+        if (value.toString().length >= 6) {
+            this._password = value; //do not return setters
+        }
+        else {
+            console.log("Password is too short!");
+        }
+    }
+}
+const rj1 = new User("rj@email.com", 123456); //setter Called
+console.log(rj1.password);   //getter called, 123456, 
+rj1.password = 1234; //setter called, Password is too short!
+//getters and setters are called when they need to be called independently
+
+//bts, same using constructor function
+function User2(email, password) {
+    this.email = email;
+    this._password = password;
+    Object.defineProperty(this, 'password', {
+        get: function() {
+            console.log('Getter called');
+            return this._password.toString(); // Return the password as a string
+        },
+        set: function(value) {
+            console.log('Setter called');
+            if (value.toString().length >= 6) {
+                this._password = value; // Set the private password if validation passes
+            } else {
+                console.log("Password is too short!"); // Log error if validation fails
+            }
+        }
+    });
+}
+const rj2 = new User2("rj@email.com", 456789);
+console.log(rj2.password);
+rj2.password = 456;    //similar outputs
+
+//getter & setter in Object, rare
+const User3 = {
+    _email: "rj@email.com",
+    _password: 123456,
+    get password() {
+        console.log('Getter called');
+        return this._password.toString();
+    },
+    set password(value) {
+        console.log('Setter called');
+        if (value.toString().length >= 6) {
+            this._password = value;
+        } else {
+            console.log("Password is too short!");
+        }
+    }
+}
+console.log(User3.password);
+User3.password = 123;   //similar outputs
+
+//Lexical scope and closure
+function outside() {
+    let name = "Outside"; // name is a local variable created by outside
+    function inside() {
+        // inside() is the inner function, that forms a closure
+        console.log("inside:", name); // use variable declared in the parent function
+    }
+    inside();
+    return inside;
+}
+outside();  //inside: Outside, due to lexical scoping
+const outsideFun = outside();   //inside: Outside, full lexical scope of outside is returned not just just inside
+outsideFun(); //inside: Outside, due to closure
+//Real world issue -> refer index1.html
+
+//Private class fields are a feature in modern JavaScript (introduced in ECMAScript 2022) that allow you to define properties within a class that are only accessible from within the class itself. These properties are prefixed with a # and cannot be accessed or modified from outside the class. Benefits: Better than before, Encapsulation, Data Integrity, Clear Syntax
+class subUser {
+    #password; // Private field
+    constructor(email, password) {
+        this.email = email;
+        this.#password = password; // Initializing private field
+    }
+    // Getter method for private password field
+    getPassword() {
+        return this.#password; // Accessing private field
+    }
+    // Setter method for private password field
+    setPassword(newPassword) {
+        if (newPassword.length >= 6) {
+            this.#password = newPassword; // Modifying private field
+        } else {
+            console.log("Password is too short!");
+        }
+    }
+}
+const subUser1 = new subUser("user@example.com", "initialPassword");
+console.log(subUser1.getPassword()); // Output: "initialPassword"
+// Trying to access private field directly will result in a syntax error
+// console.log(user.#password); // SyntaxError: Private field '#password' must be declared in an enclosing class
+subUser1.setPassword("newPassword");
+console.log(subUser1.getPassword()); // Output: "newPassword"
+subUser1.setPassword("short"); // Output: "Password is too short!"
+console.log(subUser1.getPassword()); // Output: "newPassword"

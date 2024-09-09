@@ -60,6 +60,11 @@
         <li class="list-item" id="item5">ITEM 5 (delete me)</li>
         <li class="list-item" id="item6">ITEM 6 (delete me)</li>
     </ul>
+    <br>
+    <button id="red">RED</button>
+    &nbsp;&nbsp;
+    <button id="green">GREEN</button>
+    <br><br>
     <script>
         let ele1_1 = document.getElementById("title1");
         console.log(ele1_1);    //prints html
@@ -189,6 +194,17 @@
                 event.target.remove();
             }
         });
+
+        //Lexical Scope/Closure real world example
+        function handleButtonClick(color) {
+            // document.body.style.backgroundColor = color; //directly: wrong
+            function changeBGColor() {
+                document.body.style.backgroundColor = color;
+            }
+            return changeBGColor;
+        }
+        document.querySelector("#red").onclick = handleButtonClick("red");
+        document.querySelector("#green").onclick = handleButtonClick("green");
     </script>
 </body>
 </html>
