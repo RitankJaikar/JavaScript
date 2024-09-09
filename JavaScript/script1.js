@@ -743,3 +743,32 @@ ProductDetails2.prototype.constructor = ProductDetails2;
 const ProdutDetails2_1 = new ProductDetails2("cotton", 456, "Product Detail");
 console.log(ProdutDetails2_1);
 console.log(ProdutDetails2_1.changeProductName());
+
+//Diff. b/w call and bind
+//call e.g.
+const Person1 = {
+    fullname: function() {
+        return this.first+" "+this.last;
+    }
+}
+const Person2 = {
+    first: "ritank",
+    last: "jaikar"
+}
+console.log(Person1.fullname.call(Person2));    //"ritank jaikar" , no need of "this" here. Executes the function immediately.
+//call() is used when you need to invoke the function immediately with a specific context.
+//bind e.g.
+const Person3 = {
+    firstName: "Jane",
+    lastName: "Doe",
+    fullName: function() {
+        return this.firstName + " " + this.lastName;
+    }
+};
+const anotherPerson = {
+    firstName: "ritank",
+    lastName: "jaikar"
+};
+const getFullName = person.fullName.bind(anotherPerson);    //Returns a new function that can be called later
+console.log(getFullName()); // Output: "ritank jaikar"
+//.bind() is useful when you need to pass a function as a callback and want to ensure it runs with a specific context.
