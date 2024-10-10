@@ -156,6 +156,11 @@ p {
     text-align: justify;
     hyphens: auto;
 }
+p {
+  word-wrap: break-word; /* Ensures long words or URLs break */
+  hyphens: auto;         /* Allows hyphenation if applicable */
+  overflow-wrap: break-word; /* Prevents overflow for long URLs */
+}
 
 CSS Tip 28: to find all empty tags in DOM
 :empty {
@@ -177,6 +182,8 @@ CSS Tip 33: textarea is resizable. so we can do,
 textarea {
     resize: none;
 }
+
+You could know little bit of extra CSS and could change the world. ~ me
 
 CSS Tip 34: list bullets customize
 .list or ul {
@@ -263,3 +270,36 @@ CSS Tip 50: fixed and sticky
 }
 
 CSS Tip 51: If parent element of sticky goes out of viewport then sticky element will also not visibe, its only visible inside its parent.
+
+CSS Tip 52: transform- lets you rotate, scale, skew, or translate an element. It modifies the coordinate space
+can not be transformed- non-replaced inline boxes, table-column boxes, and table-column-group boxes
+multiple transforms in one line-
+transform- translate(10px, 0px, 20px) rotate(10deg) scale(2, 0.5) skew(30deg, 20deg);
+transform-origin- sets the origin for an element's transformations
+transform-origin: center(default) | 50% 50% | top left;
+perspective and perspective-origin can be used along with transform and transitions to create 3D animations.
+
+CSS Tip 53: @supports- checks if browser supports certain properties, then only executes css
+@supports (display: flex) {
+  .flex-container > * {
+    display: flex;
+  }
+}
+
+CSS Tip 54: No hover effect or pointer event. Can be used to prevent bubbling effect of hover to child element(s)
+pointer-event: none;
+
+CSS Tip 55: Background to text only
+background-clip: text;
+color: transparent;
+
+CSS Tip 56: Invert color-
+filter: invert(100%); or invert(1);
+Invert color according to background-   (should be applied to root)
+mix-blend-mode: difference;
+
+CSS Tip 57:
+Property	    Visibility	    Layout Impact	    Interactivity
+display: none	Hidden	        Removes space	    No
+visibility:     Hidden	        Space remains	    No
+opacity: 0	    Invisible	    Space remains	    Yes
